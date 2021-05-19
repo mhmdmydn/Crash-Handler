@@ -43,7 +43,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         singleton = this;
-        lib.init(singleton);
+        CrashHandler.init(singleton);
     }
 }
 ```
