@@ -8,7 +8,7 @@ CrashHandler implement in Android with to see error exception..
 
 | First | Second |
 |:-:|:-:|
-| ![First](/images/SS-1.png?raw=true) | ![Sec](//images/SS-2.png?raw=true) |
+| ![First](/images/SS-1.png?raw=true) | ![Sec](/images/SS-2.png?raw=true) |
 
 ## Usage
 
@@ -95,4 +95,4 @@ public class App extends Application {
 
 [<img src="/images/direct-apk-download.png?raw=true"
       alt="Direct apk download"
-      height="80">](https://github.com/mhmdmydn/CrashHandler/tree/main/app/releases/)
+      height="80">](https://github.com/mhmdmydn/CrashHandler/raw/main/app/release/app-release.apk)
