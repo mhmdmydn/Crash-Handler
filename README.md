@@ -29,7 +29,7 @@ app build.gradle
 
 ```groovy
 	dependencies {
-	       implementation 'com.github.mhmdmydn:CrashHandler:0.0.3'
+	       implementation 'com.github.mhmdmydn:CrashHandler:0.0.4'
 	}
 ```
 
