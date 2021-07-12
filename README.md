@@ -4,6 +4,12 @@
 </br>
 CrashHandler implement in Android with to see error exception..
 
+## Screenshots
+
+| First | Second |
+|:-:|:-:|
+| ![First](/images/SS-1.png?raw=true) | ![Sec](//images/SS-2.png?raw=true) |
+
 ## Usage
 
 ### Setup
@@ -32,7 +38,26 @@ app build.gradle
 - Create a Java Application class and implement the init, to initiliaze library.
 
 ```java
-public class App extends CrashHandlerApplication {
+public class App extends Application {
+
+    private static App singleton = null;
+
+    public static App getInstance(){
+        if(singleton == null ){
+            singleton = new App();
+        }
+        return singleton;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        singleton = this;
+        CrashHandler.getInstance()
+                .init(singleton)
+                .setEmail("ghodelchibar@gmail.com")
+                .saveErrorToPath(true);
+    }
 
 }
 ```
@@ -47,7 +72,6 @@ public class App extends CrashHandlerApplication {
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        <!-- add name in your Application class to manifest -->
         android:name=".App"
         android:supportsRtl="true"
         android:theme="@style/Theme.CrashHandler">
@@ -62,9 +86,13 @@ public class App extends CrashHandlerApplication {
             </intent-filter>
         </activity>
 
-        <!-- add activity for result error exception -->
-        <activity android:name="id.ghodel.lib.CrashHandler$CrashActivity"></activity>
     </application>
 
 </manifest>
 ```
+
+## Demo APK
+
+[<img src="/images/direct-apk-download.png?raw=true"
+      alt="Direct apk download"
+      height="80">](https://github.com/mhmdmydn/CrashHandler/tree/main/app/releases/)
