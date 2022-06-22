@@ -1,4 +1,4 @@
-package id.ghodel.lib.Activity;
+package id.ghodel.crash.ui.base;
 
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;

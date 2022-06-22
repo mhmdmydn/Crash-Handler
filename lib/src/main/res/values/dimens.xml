@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="padding_8dp">8dp</dimen>
+    <dimen name="card_8dp">8dp</dimen>
+    <dimen name="card_3dp">3dp</dimen>
+    <dimen name="card_4dp">4dp</dimen>
+    <dimen name="margin_3dp">3dp</dimen>
+</resources>

@@ -2,7 +2,8 @@ package id.ghodel.crashhandler;
 
 import android.app.Application;
 
-import id.ghodel.lib.CrashHandler;
+import id.ghodel.crash.BuildConfig;
+import id.ghodel.crash.CrashHandler;
 
 public class App extends Application {
 
@@ -19,9 +20,11 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         singleton = this;
-        CrashHandler.getInstance()
-                .init(singleton)
+        new CrashHandler.Builder(this)
                 .setEmail("ghodelchibar@gmail.com")
-                .saveErrorToPath(true);
+                .setBuildType(BuildConfig.BUILD_TYPE)
+                .saveCrashToFile(true)
+                .build();
+
     }
 }

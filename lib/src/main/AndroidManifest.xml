@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="id.ghodel.lib">
+    package="id.ghodel.crash">
 
     <application>
-        <activity android:name=".Activity.CrashActivity"></activity>
+        <activity
+            android:name="id.ghodel.crash.ui.crash.CrashActivity"
+            android:exported="false"/>
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package id.ghodel.lib;
+package id.ghodel.crash;
 
 import android.content.Context;
 

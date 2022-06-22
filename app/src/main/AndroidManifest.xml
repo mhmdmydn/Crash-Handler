@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="id.ghodel.lib.CrashHandler$CrashActivity"></activity>
+        <activity android:name="id.ghodel.crash.CrashHandler$CrashActivity"></activity>
     </application>
 
 </manifest>

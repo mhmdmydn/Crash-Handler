@@ -1,1 +1,29 @@
-<resources></resources>
+<resources>
+    <string name="separator">:</string>
+    <string name="build_information">Build Information</string>
+    <string name="device_information">Device Information</string>
+    <string name="crash_information">Crash Information</string>
+    <string name="placeholder">placeholder</string>
+    <string name="build_version_name">Version name</string>
+    <string name="build_version_code">Version code</string>
+    <string name="build_package_name">Package name</string>
+    <string name="build_type">Build type</string>
+    <string name="device_manufacturer">Manufacturer</string>
+    <string name="device_model">Model</string>
+    <string name="brand">Brand</string>
+    <string name="device_resolution">Resolution</string>
+    <string name="device_density">Density</string>
+    <string name="device_release">Release</string>
+    <string name="device_sdk">API</string>
+    <string name="device_cpu_abi">CPU ABI</string>
+    <string name="time_of_crash">Time of crash</string>
+    <string name="crash_throwable">Throwable</string>
+    <string name="crash_message">Message</string>
+    <string name="crash_type">Type</string>
+    <string name="method">Method</string>
+    <string name="crash_filename">Filename</string>
+    <string name="crash_classname">Classname</string>
+    <string name="crash_line_number">Line number</string>
+    <string name="crash_full_stacktrace">Full stacktrace</string>
+    <string name="stackoverflow">Stackoverflow</string>
+</resources>
