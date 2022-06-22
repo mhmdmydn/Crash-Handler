@@ -27,6 +27,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
 }
 
 dependencies {
@@ -38,16 +39,16 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
-
 afterEvaluate {
     publishing {
         publications {
             release(MavenPublication) {
                 from components.release
 
-                groupId = 'id.ghodel.mhmdmydn'
+                groupId = 'id.ghodel.crash'
                 artifactId = 'crash-handler'
                 version = '1.0.0'
+
             }
         }
     }
