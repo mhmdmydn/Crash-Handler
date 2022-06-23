@@ -12,26 +12,36 @@ import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import id.ghodel.crash.data.DisplayType;
 import id.ghodel.crash.data.model.CrashInfo;
 import id.ghodel.crash.data.model.DeviceInfo;
 import id.ghodel.crash.ui.crash.CrashActivity;
+import id.ghodel.crash.ui.crash.CrashDialogActivity;
 import id.ghodel.crash.util.Utils;
 
 public class CrashHandler implements Thread.UncaughtExceptionHandler {
 
     private static final String TAG = "CrashHandler";
+    public static final String CRASH_INFO = "crash_info";
+    public static final String EMAIL = "email";
     public static final Thread.UncaughtExceptionHandler UNCAUGHT_EXCEPTION_HANDLER = Thread.getDefaultUncaughtExceptionHandler();
     private final Context mContext;
 
     private final String email;
-    private final String buildType;
+    private final boolean buildType;
     private final boolean isAllowToSave;
+    private final DisplayType showAs;
+    private final Class<?> customClass;
+
 
     private CrashHandler(Builder builder){
         this.mContext = builder.context;
         this.email = builder.email;
         this.isAllowToSave = builder.isAllowToSave;
         this.buildType = builder.buildType;
+        this.showAs = builder.showAs;
+        this.customClass = builder.customClass;
+
         Thread.setDefaultUncaughtExceptionHandler(this);
 
     }
@@ -40,13 +50,20 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         return email;
     }
 
-    public String getBuildType() {
+    public boolean getBuildType() {
         return buildType;
     }
     public boolean isAllowToSave() {
         return isAllowToSave;
     }
 
+    public DisplayType getShowAs(){
+        return showAs;
+    }
+
+    public Class<?> getCustomClass(){
+        return customClass;
+    }
 
     @Override
     public void uncaughtException(Thread t , Throwable e) {
@@ -92,7 +109,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         crashInfo.setVersionCode(Utils.getVersionCode(mContext));
         crashInfo.setVersionName(Utils.getVersionName(mContext));
         crashInfo.setPackageName(mContext.getPackageName());
-        crashInfo.setBuildType(BuildConfig.BUILD_TYPE);
+        crashInfo.setBuildType(buildType);
         DeviceInfo deviceInfo = new DeviceInfo();
         deviceInfo.setManufacturer(Build.MANUFACTURER);
         deviceInfo.setBrand(Build.BRAND);
@@ -115,7 +132,18 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             }
         }
 
-        CrashActivity.startCrash(mContext, thread, throwable,crashInfo, email);
+        switch (showAs){
+            case CUSTOM_ACTIVITY:
+                Utils.startCrash(mContext,customClass, thread, throwable,crashInfo, email);
+                break;
+            case ACTIVITY:
+                Utils.startCrash(mContext,CrashActivity.class, thread, throwable,crashInfo, email);
+                break;
+            case DIALOG:
+                Utils.startCrash(mContext, CrashDialogActivity.class, thread, throwable,crashInfo, email);
+                break;
+        }
+
     }
 
     public static  class Builder {
@@ -123,7 +151,9 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         private Context context;
         private String email;
         private boolean isAllowToSave;
-        private String buildType;
+        private boolean buildType;
+        private DisplayType showAs;
+        private Class<?> customClass;
 
         public Builder(){
 
@@ -143,7 +173,18 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             return this;
         }
 
-        public Builder setBuildType(String buildType){
+        public Builder showAs(DisplayType showAs, Class<?> customClass){
+            this.showAs = showAs;
+            this.customClass = customClass;
+            return this;
+        }
+
+        public Builder showAs(DisplayType showAs){
+            this.showAs = showAs;
+            return this;
+        }
+
+        public Builder setBuildType(boolean buildType){
             this.buildType = buildType;
             return this;
         }

@@ -17,7 +17,7 @@ public class CrashInfo implements Parcelable {
     private String versionCode;
     private String versionName;
     private String packageName;
-    private String buildType;
+    private boolean buildType;
 
     private DeviceInfo deviceInfo = new DeviceInfo();
 
@@ -25,7 +25,7 @@ public class CrashInfo implements Parcelable {
 
     }
 
-    public CrashInfo(Throwable exception, String exceptionMsg, String className, String fileName, String methodName, int lineNumber, String exceptionType, String fullException, long timeOfCrash, String versionCode, String versionName, String packageName, String buildType, DeviceInfo deviceInfo) {
+    public CrashInfo(Throwable exception, String exceptionMsg, String className, String fileName, String methodName, int lineNumber, String exceptionType, String fullException, long timeOfCrash, String versionCode, String versionName, String packageName, boolean buildType, DeviceInfo deviceInfo) {
         this.exception = exception;
         this.exceptionMsg = exceptionMsg;
         this.className = className;
@@ -138,11 +138,11 @@ public class CrashInfo implements Parcelable {
         this.packageName = packageName;
     }
 
-    public String getBuildType() {
+    public boolean isBuildType() {
         return buildType;
     }
 
-    public void setBuildType(String buildType) {
+    public void setBuildType(boolean buildType) {
         this.buildType = buildType;
     }
 
@@ -166,7 +166,7 @@ public class CrashInfo implements Parcelable {
         versionCode = in.readString();
         versionName = in.readString();
         packageName = in.readString();
-        buildType = in.readString();
+        buildType = in.readByte() != 0;
         deviceInfo = in.readParcelable(DeviceInfo.class.getClassLoader());
     }
 
@@ -200,7 +200,7 @@ public class CrashInfo implements Parcelable {
         dest.writeString(versionCode);
         dest.writeString(versionName);
         dest.writeString(packageName);
-        dest.writeString(buildType);
+        dest.writeByte((byte) (buildType ? 1 : 0));
         dest.writeParcelable(deviceInfo, flags);
     }
 
@@ -219,7 +219,7 @@ public class CrashInfo implements Parcelable {
                 ", versionCode='" + versionCode + '\'' +
                 ", versionName='" + versionName + '\'' +
                 ", packageName='" + packageName + '\'' +
-                ", buildType='" + buildType + '\'' +
+                ", buildType=" + buildType +
                 ", deviceInfo=" + deviceInfo +
                 '}';
     }

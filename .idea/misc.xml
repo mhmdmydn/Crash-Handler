@@ -3,14 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidStudio/CrashHandler/lib/src/main/res/drawable/ic_bug_outline.xml" value="0.1" />
         <entry key="..\:/AndroidStudio/CrashHandler/lib/src/main/res/drawable/ic_bug_report.xml" value="0.2046875" />
+        <entry key="..\:/AndroidStudio/CrashHandler/lib/src/main/res/drawable/ic_copy.xml" value="0.1" />
+        <entry key="..\:/AndroidStudio/CrashHandler/lib/src/main/res/drawable/ic_google_chrome.xml" value="0.1" />
+        <entry key="..\:/AndroidStudio/CrashHandler/lib/src/main/res/drawable/ic_share.xml" value="0.1" />
+        <entry key="..\:/AndroidStudio/CrashHandler/lib/src/main/res/drawable/ic_stack_overflow.xml" value="0.1" />
+        <entry key="..\:/AndroidStudio/CrashHandler/lib/src/main/res/drawable/ic_stackoverflow.xml" value="0.1" />
         <entry key="..\:/AndroidStudio/CrashHandler/lib/src/main/res/layout/activity_crash.xml" value="0.25" />
         <entry key="..\:/AndroidStudio/CrashHandler/lib/src/main/res/layout/build_item_list.xml" value="0.22" />
         <entry key="..\:/AndroidStudio/CrashHandler/lib/src/main/res/layout/build_layout.xml" value="0.22" />
         <entry key="..\:/AndroidStudio/CrashHandler/lib/src/main/res/layout/crash_layout.xml" value="0.22" />
         <entry key="..\:/AndroidStudio/CrashHandler/lib/src/main/res/layout/data_item_list.xml" value="0.11041666666666666" />
         <entry key="..\:/AndroidStudio/CrashHandler/lib/src/main/res/layout/device_layout.xml" value="0.22" />
-        <entry key="..\:/AndroidStudio/CrashHandler/lib/src/main/res/menu/main_menu.xml" value="0.11041666666666666" />
+        <entry key="..\:/AndroidStudio/CrashHandler/lib/src/main/res/menu/main_menu.xml" value="0.21" />
       </map>
     </option>
   </component>

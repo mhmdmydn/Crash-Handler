@@ -1,7 +1,13 @@
 package id.ghodel.crash.util;
 
+import static id.ghodel.crash.CrashHandler.CRASH_INFO;
+import static id.ghodel.crash.CrashHandler.EMAIL;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -23,8 +29,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 
+import id.ghodel.crash.CrashHandler;
 import id.ghodel.crash.data.model.CrashInfo;
 
 /**
@@ -48,10 +57,12 @@ public class Utils {
         }
     }
 
-    public static void goToStackoverflow(Context context, String url){
-
-        context.startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(url)));
-        ((Activity)context).finish();
+    public static void searchToGoogle(Context context, String crash) throws UnsupportedEncodingException {
+        String query = crash + " site:stackoverflow.com";
+        String escapedQuery = URLEncoder.encode(query, "UTF-8");
+        Uri uri = Uri.parse("http://www.google.com/search?q=" + escapedQuery);
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        context.startActivity(intent);
     }
 
     public static void goToEmailCrashBugReport(Context context, String email, String body){
@@ -252,6 +263,7 @@ public class Utils {
 
         StringBuilder sb = new StringBuilder();
         sb.append("-= Build Information =-");
+        sb.append("\nBuild type: ").append((crashInfo.isBuildType())? "Debug" : "Release");
         sb.append("\nVersionName: ").append(crashInfo.getVersionName());
         sb.append("\nVersionCode: ").append(crashInfo.getVersionCode());
         sb.append("\nPackage: ").append(crashInfo.getPackageName());
@@ -282,4 +294,40 @@ public class Utils {
 
         return sb.toString();
     }
+
+    public static void copyCrashToClipboard(Context context, String label, String crashInfo){
+        ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText(label, crashInfo);
+        clipboard.setPrimaryClip(clip);
+    }
+
+    public static void sendCrashToMail(Context context, String email, String message){
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:"));
+        intent.putExtra(Intent.EXTRA_EMAIL  , new String[] {email});
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Error report");
+        intent.putExtra(Intent.EXTRA_TEXT, message);
+        context.startActivity(Intent.createChooser(intent, "Send email"));
+    }
+
+    public static void startCrash(Context context,Class<?> clazz, Thread thread, Throwable throwable, CrashInfo crashInfo, String email){
+        Intent intent = new Intent(context, clazz);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK );
+        intent.putExtra(CRASH_INFO, crashInfo);
+        intent.putExtra(EMAIL, email);
+
+        try {
+            context.startActivity(intent);
+            android.os.Process.killProcess(android.os.Process.myPid());
+            System.exit(0);
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
+            if(CrashHandler.UNCAUGHT_EXCEPTION_HANDLER != null){
+                CrashHandler.UNCAUGHT_EXCEPTION_HANDLER.uncaughtException(thread, throwable);
+            }
+        }
+    }
+
+
+
 }

@@ -3,20 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/actiion_stackoverflow"
-        android:icon="@drawable/ic_stackoverflow"
+        android:id="@+id/action_google"
+        android:icon="@drawable/ic_google_chrome"
         android:title="@string/stackoverflow"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_copy"
+        android:icon="@drawable/ic_copy"
+        android:title="@android:string/copy"
         app:showAsAction="always"/>
 
     <item
-        android:id="@+id/actiion_share"
-        android:icon="@drawable/ic_share"
-        android:title="Share"
-        app:showAsAction="always"/>
-
-    <item
-        android:id="@+id/actiion_report"
-        android:icon="@drawable/ic_bug_report"
-        android:title="Report bug"
+        android:id="@+id/action_report"
+        android:icon="@drawable/ic_bug"
+        android:title="@string/report_bug"
         app:showAsAction="always"/>
 </menu>

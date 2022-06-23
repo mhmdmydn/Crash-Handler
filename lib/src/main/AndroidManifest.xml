@@ -5,6 +5,11 @@
     <application>
         <activity
             android:name="id.ghodel.crash.ui.crash.CrashActivity"
+            android:label="@string/app_crash"
+            android:exported="false"/>
+        <activity
+            android:name="id.ghodel.crash.ui.crash.CrashDialogActivity"
+            android:label="@string/app_crash"
             android:exported="false"/>
     </application>
 

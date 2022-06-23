@@ -1,5 +1,8 @@
 package id.ghodel.crash.ui.crash;
 
+import static id.ghodel.crash.CrashHandler.CRASH_INFO;
+import static id.ghodel.crash.CrashHandler.EMAIL;
+
 import androidx.annotation.NonNull;
 import androidx.core.widget.NestedScrollView;
 
@@ -12,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +23,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -33,9 +38,6 @@ import id.ghodel.crash.util.Utils;
 public class CrashActivity extends BaseActivity {
 
     private static final int AUTO_DISMISS_MILLIS = 10000;
-
-    public static final String CRASH_INFO = "crash_info";
-    public static final String EMAIL = "email";
 
     private Boolean pressAgainToExit = false;
     //variable textview build information
@@ -53,28 +55,8 @@ public class CrashActivity extends BaseActivity {
     private TextView tvCrashClassname;
     private TextView tvCrashLinenumber;
     private TextView tvCrashFullStacktrace;
-
     private CrashInfo crashInfo;
-
-
-    public static void startCrash(Context context,Thread thread, Throwable throwable, CrashInfo crashInfo, String email){
-        Intent intent = new Intent(context, CrashActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK );
-        intent.putExtra(CRASH_INFO, crashInfo);
-        intent.putExtra(EMAIL, email);
-
-        try {
-            context.startActivity(intent);
-            android.os.Process.killProcess(android.os.Process.myPid());
-            System.exit(0);
-        } catch (ActivityNotFoundException e) {
-            e.printStackTrace();
-            if(CrashHandler.UNCAUGHT_EXCEPTION_HANDLER != null){
-                CrashHandler.UNCAUGHT_EXCEPTION_HANDLER.uncaughtException(thread, throwable);
-            }
-        }
-    }
-
+    private String email;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,13 +105,13 @@ public class CrashActivity extends BaseActivity {
             getSupportActionBar().setHomeButtonEnabled(true);
         }
         crashInfo = getIntent().getParcelableExtra(CRASH_INFO);
-        String email = getIntent().getStringExtra(EMAIL);
+        email = getIntent().getStringExtra(EMAIL);
 
         //build information
         tvBuildVersionCode.setText(crashInfo.getVersionCode());
         tvBuildVersionName.setText(crashInfo.getVersionName());
         tvBuildPackageName.setText(crashInfo.getPackageName());
-        tvBuildType.setText(crashInfo.getBuildType());
+        tvBuildType.setText((crashInfo.isBuildType()) ? "Debug" : "Release");
 
         //device information
         tvDeviceManufacturer.setText(crashInfo.getDeviceInfo().getManufacturer());
@@ -166,36 +148,31 @@ public class CrashActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.actiion_stackoverflow) {
-            Utils.goToStackoverflow(CrashActivity.this, crashInfo.getExceptionMsg());
-        } else if (id == R.id.actiion_share) {
-            Utils.shareError(CrashActivity.this, crashInfo.getFullException());
-        }else if(id == R.id.actiion_report){
-
-
+        if (id == R.id.action_google) {
+            try {
+                Utils.searchToGoogle(CrashActivity.this, crashInfo.getExceptionMsg());
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        } else if (id == R.id.action_copy) {
+            String crashInfoString = Utils.parseCrashInfoToString(crashInfo);
+            Utils.copyCrashToClipboard(CrashActivity.this, "CrashInfo", crashInfoString);
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    toast("Successfully copy crash to clipboard");
+                    finish();
+                }
+            }, 1000);
+        }else if(id == R.id.action_report){
+            Utils.sendCrashToMail(CrashActivity.this, email, Utils.parseCrashInfoToString(crashInfo));
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void initListener() {
-        /*imgStackOverFlow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
-        imgShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                            }
-        });
-        imgReport.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-           }
-        });*/
     }
 
 

@@ -1,6 +1,8 @@
 package id.ghodel.crash.ui.base;
 
 import android.os.Bundle;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 /**
@@ -16,4 +18,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     public abstract void initView();
     public abstract void initLogic();
     public abstract void initListener();
+
+    protected void toast(String message){
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
 }

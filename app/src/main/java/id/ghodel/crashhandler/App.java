@@ -2,8 +2,8 @@ package id.ghodel.crashhandler;
 
 import android.app.Application;
 
-import id.ghodel.crash.BuildConfig;
 import id.ghodel.crash.CrashHandler;
+import id.ghodel.crash.data.DisplayType;
 
 public class App extends Application {
 
@@ -22,9 +22,9 @@ public class App extends Application {
         singleton = this;
         new CrashHandler.Builder(this)
                 .setEmail("ghodelchibar@gmail.com")
-                .setBuildType(BuildConfig.BUILD_TYPE)
+                .setBuildType(BuildConfig.DEBUG)
                 .saveCrashToFile(true)
+                .showAs(DisplayType.DIALOG)
                 .build();
-
     }
 }

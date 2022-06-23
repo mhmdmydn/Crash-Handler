@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_crash">Application Crash</string>
     <string name="separator">:</string>
     <string name="build_information">Build Information</string>
     <string name="device_information">Device Information</string>
@@ -26,4 +27,6 @@
     <string name="crash_line_number">Line number</string>
     <string name="crash_full_stacktrace">Full stacktrace</string>
     <string name="stackoverflow">Stackoverflow</string>
+    <string name="share">Share</string>
+    <string name="report_bug">Report bug</string>
 </resources>
