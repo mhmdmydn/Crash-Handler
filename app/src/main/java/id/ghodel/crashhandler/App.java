@@ -22,7 +22,7 @@ public class App extends Application {
         singleton = this;
         new CrashHandler.Builder(this)
                 .setEmail("ghodelchibar@gmail.com")
-                .setBuildType(BuildConfig.DEBUG)
+                .setBuildType(BuildConfig.BUILD_TYPE)
                 .saveCrashToFile(true)
                 .showAs(DisplayType.DIALOG)
                 .build();
